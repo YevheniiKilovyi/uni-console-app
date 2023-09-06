@@ -1,19 +1,23 @@
 package yevhkil.uniconsoleapp;
 
 import java.util.Scanner;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import yevhkil.uniconsoleapp.command.CommandInvoker;
 
 @SpringBootApplication
+@RequiredArgsConstructor
+@Slf4j
 public class UniConsoleAppApplication {
 
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(UniConsoleAppApplication.class, args);
 
         if (args.length > 0) {
-            System.out.println("Invalid usage. Use the interactive mode to enter commands.");
+            log.error("Invalid usage. Use the interactive mode to enter commands.");
             return;
         }
 

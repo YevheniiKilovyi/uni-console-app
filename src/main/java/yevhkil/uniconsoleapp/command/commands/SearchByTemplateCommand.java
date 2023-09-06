@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.StringJoiner;
 import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import yevhkil.uniconsoleapp.command.Command;
 import yevhkil.uniconsoleapp.dto.response.lector.LectorResponseDto;
@@ -13,18 +14,18 @@ import yevhkil.uniconsoleapp.util.ArgumentsExtractor;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class SearchByTemplateCommand implements Command {
     private static final Pattern PATTERN = Pattern.compile("Global\\s+search\\s+by\\s+(\\S+.*)?");
-
+    private static final String COMMAND_TEMPLATE = "Global search by {template}";
     private final LectorService lectorService;
     private final RequestHandler requestHandler;
     private final ArgumentsExtractor argumentsExtractor;
 
     @Override
-    public boolean execute(String input) {
+    public void execute(String input) {
         if (!requestHandler.isRequestApplicableByPattern(input, PATTERN)) {
-            System.out.println("Invalid command format. Use: Global search by {template}");
-
+            return;
         }
 
         String template = argumentsExtractor.extractArgumentFromRequestByPattern(input, PATTERN);
@@ -35,10 +36,20 @@ public class SearchByTemplateCommand implements Command {
             for (LectorResponseDto lector : matchingLectors) {
                 result.add(lector.getFirstName() + " " + lector.getLastName());
             }
-            System.out.println(result);
-            return true;
+            System.out.println(result.toString());
+            return;
         }
-        System.out.println("No matching lectors found for the template: " + template);
-        return false;
+        log.info("No matching lectors found for the template: " + template);
     }
+
+    @Override
+    public Pattern getCommandPattern() {
+        return PATTERN;
+    }
+
+    @Override
+    public String getCommandTemplate() {
+        return COMMAND_TEMPLATE;
+    }
+
 }

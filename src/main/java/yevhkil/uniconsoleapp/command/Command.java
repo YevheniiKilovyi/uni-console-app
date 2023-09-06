@@ -1,5 +1,11 @@
 package yevhkil.uniconsoleapp.command;
 
+import java.util.regex.Pattern;
+
 public interface Command {
-    boolean execute(String input);
+    void execute(String input);
+
+    Pattern getCommandPattern();
+
+    String getCommandTemplate();
 }
