@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-lectors-table
+      author: YevheniiKilovyi
+      changes:
+        - createTable:
+            tableName: lectors
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: salary
+                  type: numeric(10, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: degree
+                  type: varchar(20)
+                  constraints:
+                    nullable: false

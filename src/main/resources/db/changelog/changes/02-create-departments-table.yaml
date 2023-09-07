@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-departments-table
+      author: YevheniiKilovyi
+      changes:
+        - createTable:
+            tableName: departments
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: head_lector_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: departments
+            baseColumnNames: head_lector_id
+            referencedTableName: lectors
+            referencedColumnNames: id
+            constraintName: departments_fk

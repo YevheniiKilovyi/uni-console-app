@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-lectors-departments-table
+      author: YevheniiKilovyi
+      changes:
+        - createTable:
+            tableName: lectors_departments
+            columns:
+              - column:
+                  name: lector_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: department_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: lectors_departments
+            columnNames: lector_id, department_id
+        - addForeignKeyConstraint:
+            baseTableName: lectors_departments
+            baseColumnNames: lector_id
+            referencedTableName: lectors
+            referencedColumnNames: id
+            constraintName: fk_lectors_departments_lector
+        - addForeignKeyConstraint:
+            baseTableName: lectors_departments
+            baseColumnNames: department_id
+            referencedTableName: departments
+            referencedColumnNames: id
+            constraintName: fk_lectors_departments_department
