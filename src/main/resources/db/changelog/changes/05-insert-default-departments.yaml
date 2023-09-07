@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-default-departments
+      author: YevheniiKilovyi
+      changes:
+        - insert:
+            tableName: departments
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: name
+                  value: "Vikings History Department"
+              - column:
+                  name: head_lector_id
+                  value: 8
+        - insert:
+            tableName: departments
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: name
+                  value: "Math Department"
+              - column:
+                  name: head_lector_id
+                  value: 4
+        - insert:
+            tableName: departments
+            columns:
+              - column:
+                  name: id
+                  value: 3
+              - column:
+                  name: name
+                  value: "Ukrainian Language Department"
+              - column:
+                  name: head_lector_id
+                  value: 6

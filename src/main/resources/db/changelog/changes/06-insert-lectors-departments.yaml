@@ -1,0 +1,55 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-lectors-departments
+      author: YevheniiKilovyi
+      changes:
+        - insert:
+            tableName: lectors_departments
+            columns:
+              - column: { name: lector_id, value: 1 }
+              - column: { name: department_id, value: 2 }
+        - insert:
+            tableName: lectors_departments
+            columns:
+              - column: { name: lector_id, value: 2 }
+              - column: { name: department_id, value: 1 }
+        - insert:
+            tableName: lectors_departments
+            columns:
+              - column: { name: lector_id, value: 3 }
+              - column: { name: department_id, value: 2 }
+        - insert:
+            tableName: lectors_departments
+            columns:
+              - column: { name: lector_id, value: 5 }
+              - column: { name: department_id, value: 3 }
+        - insert:
+            tableName: lectors_departments
+            columns:
+              - column: { name: lector_id, value: 6 }
+              - column: { name: department_id, value: 3 }
+        - insert:
+            tableName: lectors_departments
+            columns:
+              - column: { name: lector_id, value: 7 }
+              - column: { name: department_id, value: 1 }
+        - insert:
+            tableName: lectors_departments
+            columns:
+              - column: { name: lector_id, value: 8 }
+              - column: { name: department_id, value: 1 }
+        - insert:
+            tableName: lectors_departments
+            columns:
+              - column: { name: lector_id, value: 4 }
+              - column: { name: department_id, value: 2 }
+        - insert:
+            tableName: lectors_departments
+            columns:
+              - column: { name: lector_id, value: 9 }
+              - column: { name: department_id, value: 1 }
+        - insert:
+            tableName: lectors_departments
+            columns:
+              - column: { name: lector_id, value: 9 }
+              - column: { name: department_id, value: 3 }
