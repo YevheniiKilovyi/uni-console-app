@@ -1,7 +1,8 @@
-﻿# uni-console-app
+# uni-console-app
 that's a simple console application for universities. 
 
 List of available commands:
+
 
 Who is head of department {department_name}
 
@@ -12,6 +13,16 @@ Show the average salary for the department {department_name}
 Show count of employee for {department_name}
 
 Show {department_name} statistics
+
+
+List od available departments:
+
+Vikings history departments
+
+Math department
+
+Ukrainian language department 
+
 
 To run application you need to pass params into application.properties file :
 
