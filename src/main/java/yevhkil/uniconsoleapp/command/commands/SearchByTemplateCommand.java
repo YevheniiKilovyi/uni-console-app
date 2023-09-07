@@ -1,7 +1,6 @@
 package yevhkil.uniconsoleapp.command.commands;
 
 import java.util.List;
-import java.util.StringJoiner;
 import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +8,8 @@ import org.springframework.stereotype.Component;
 import yevhkil.uniconsoleapp.command.Command;
 import yevhkil.uniconsoleapp.dto.response.lector.LectorResponseDto;
 import yevhkil.uniconsoleapp.request.RequestHandler;
+import yevhkil.uniconsoleapp.response.Response;
+import yevhkil.uniconsoleapp.response.responses.SearchByTemplateResponse;
 import yevhkil.uniconsoleapp.service.lector.LectorService;
 import yevhkil.uniconsoleapp.util.ArgumentsExtractor;
 
@@ -23,23 +24,23 @@ public class SearchByTemplateCommand implements Command {
     private final ArgumentsExtractor argumentsExtractor;
 
     @Override
-    public void execute(String input) {
+    public Response execute(String input) {
+        Response response = new SearchByTemplateResponse();
+
         if (!requestHandler.isRequestApplicableByPattern(input, PATTERN)) {
-            return;
+            return response;
         }
 
         String template = argumentsExtractor.extractArgumentFromRequestByPattern(input, PATTERN);
         List<LectorResponseDto> matchingLectors = lectorService.findLectorsByTemplate(template);
 
         if (!matchingLectors.isEmpty()) {
-            StringJoiner result = new StringJoiner(", ");
-            for (LectorResponseDto lector : matchingLectors) {
-                result.add(lector.getFirstName() + " " + lector.getLastName());
-            }
-            System.out.println(result.toString());
-            return;
+            response = new SearchByTemplateResponse(matchingLectors);
+            log.info(response.getResponseBody());
+            return response;
         }
-        log.info("No matching lectors found for the template: " + template);
+        log.warn(new SearchByTemplateResponse().getNegativeResponseBody() + template);
+        return response;
     }
 
     @Override

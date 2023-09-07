@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import yevhkil.uniconsoleapp.command.Command;
 import yevhkil.uniconsoleapp.dto.response.lector.LectorResponseDto;
 import yevhkil.uniconsoleapp.request.RequestHandler;
+import yevhkil.uniconsoleapp.response.Response;
+import yevhkil.uniconsoleapp.response.responses.HeadOfDepartmentResponse;
 import yevhkil.uniconsoleapp.service.department.DepartmentService;
 import yevhkil.uniconsoleapp.util.ArgumentsExtractor;
 
@@ -23,9 +25,11 @@ public class HeadOfDepartmentCommand implements Command {
     private final ArgumentsExtractor argumentsExtractor;
 
     @Override
-    public void execute(String input) {
+    public Response execute(String input) {
+        Response response = new HeadOfDepartmentResponse();
+
         if (!requestHandler.isRequestApplicableByPattern(input, PATTERN)) {
-            return;
+            return response;
         }
 
         String departmentName =
@@ -33,16 +37,13 @@ public class HeadOfDepartmentCommand implements Command {
         LectorResponseDto lectorResponseDto = departmentService.getDepartmentHead(departmentName);
 
         if (lectorResponseDto != null) {
-            String headOfDepartment = String.format(
-                    "Head of %s department is %s %s",
-                    departmentName,
-                    lectorResponseDto.getFirstName(),
-                    lectorResponseDto.getLastName()
-            );
-            System.out.println(headOfDepartment);
-            return;
+            response = new HeadOfDepartmentResponse(departmentName,
+                    lectorResponseDto.getFirstName(), lectorResponseDto.getLastName());
+            log.info(response.getResponseBody());
+            return response;
         }
-        log.info("Department not found or head not assigned.");
+        log.warn(response.getNegativeResponseBody());
+        return response;
     }
 
     @Override

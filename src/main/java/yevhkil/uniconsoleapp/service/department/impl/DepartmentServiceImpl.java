@@ -1,4 +1,4 @@
-package yevhkil.uniconsoleapp.service.department;
+package yevhkil.uniconsoleapp.service.department.impl;
 
 import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import yevhkil.uniconsoleapp.dto.response.lector.LectorResponseDto;
 import yevhkil.uniconsoleapp.mapper.lector.LectorMapper;
 import yevhkil.uniconsoleapp.repository.department.DepartmentRepository;
+import yevhkil.uniconsoleapp.service.department.DepartmentService;
 
 @RequiredArgsConstructor
 @Service

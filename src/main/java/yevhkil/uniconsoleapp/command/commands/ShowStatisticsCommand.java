@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import yevhkil.uniconsoleapp.command.Command;
 import yevhkil.uniconsoleapp.request.RequestHandler;
+import yevhkil.uniconsoleapp.response.Response;
+import yevhkil.uniconsoleapp.response.responses.ShowStatisticsResponse;
 import yevhkil.uniconsoleapp.service.department.DepartmentService;
 import yevhkil.uniconsoleapp.util.ArgumentsExtractor;
 
@@ -24,9 +26,11 @@ public class ShowStatisticsCommand implements Command {
     private final ArgumentsExtractor argumentsExtractor;
 
     @Override
-    public void execute(String input) {
+    public Response execute(String input) {
+        Response response = new ShowStatisticsResponse();
+
         if (!requestHandler.isRequestApplicableByPattern(input, PATTERN)) {
-            return;
+            return response;
         }
 
         String departmentName =
@@ -38,12 +42,13 @@ public class ShowStatisticsCommand implements Command {
                 departmentService.getDegreeCount(departmentName, PROFESSOR_DEGREE);
 
         if (assistantCount > 0 || associateProfessorsCount > 0 || professorsCount > 0) {
-            System.out.printf("assistants - %d.%n", assistantCount);
-            System.out.printf("associate professors - %d.%n", associateProfessorsCount);
-            System.out.printf("professors - %d.%n", professorsCount);
-            return;
+            response = new ShowStatisticsResponse(assistantCount, associateProfessorsCount,
+                    professorsCount);
+            log.info(response.getResponseBody());
+            return response;
         }
-        log.info("Department not found or no statistics available.");
+        log.warn(response.getNegativeResponseBody());
+        return response;
     }
 
     @Override

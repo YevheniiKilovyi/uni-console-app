@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import yevhkil.uniconsoleapp.request.RequestHandler;
+import yevhkil.uniconsoleapp.response.Response;
+import yevhkil.uniconsoleapp.response.responses.DefaultResponse;
 
 @Component
 @RequiredArgsConstructor
@@ -14,21 +16,19 @@ public class CommandInvoker {
     private final List<Command> commandList;
     private final RequestHandler requestHandler;
 
-    public void executeCommand(String input) {
+    public Response executeCommand(String input) {
+        Response response = new DefaultResponse(commandList);
         Optional<Command> optionalCommand = commandList.stream()
                 .filter(command -> requestHandler.isRequestApplicableByPattern(
-                                input, command.getCommandPattern()))
-                        .findFirst();
+                        input, command.getCommandPattern()))
+                .findFirst();
 
         if (optionalCommand.isPresent()) {
-            optionalCommand.get().execute(input);
-            return;
+            response = optionalCommand.get().execute(input);
+            return response;
         }
 
-        StringBuilder stringBuilder = new StringBuilder("\nUnknown command. Available commands:\n");
-        commandList.forEach(command -> stringBuilder
-                        .append(command.getCommandTemplate())
-                        .append("\n"));
-        log.error(stringBuilder.toString());
+        log.error(response.getResponseBody());
+        return response;
     }
 }

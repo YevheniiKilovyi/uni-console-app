@@ -1,4 +1,4 @@
-package yevhkil.uniconsoleapp.service.lector;
+package yevhkil.uniconsoleapp.service.lector.impl;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +7,7 @@ import yevhkil.uniconsoleapp.dto.response.lector.LectorResponseDto;
 import yevhkil.uniconsoleapp.mapper.lector.LectorMapper;
 import yevhkil.uniconsoleapp.model.Lector;
 import yevhkil.uniconsoleapp.repository.lector.LectorRepository;
+import yevhkil.uniconsoleapp.service.lector.LectorService;
 
 @RequiredArgsConstructor
 @Service

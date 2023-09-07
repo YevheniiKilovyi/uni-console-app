@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import yevhkil.uniconsoleapp.command.Command;
 import yevhkil.uniconsoleapp.request.RequestHandler;
+import yevhkil.uniconsoleapp.response.Response;
+import yevhkil.uniconsoleapp.response.responses.ShowAverageSalaryResponse;
 import yevhkil.uniconsoleapp.service.department.DepartmentService;
 import yevhkil.uniconsoleapp.util.ArgumentsExtractor;
 
@@ -24,9 +26,11 @@ public class ShowAverageSalaryByDepartmentCommand implements Command {
     private final ArgumentsExtractor argumentsExtractor;
 
     @Override
-    public void execute(String input) {
+    public Response execute(String input) {
+        Response response = new ShowAverageSalaryResponse();
+
         if (!requestHandler.isRequestApplicableByPattern(input, PATTERN)) {
-            return;
+            return response;
         }
 
         String departmentName =
@@ -34,10 +38,12 @@ public class ShowAverageSalaryByDepartmentCommand implements Command {
         BigDecimal averageSalary = departmentService.getAverageSalary(departmentName);
 
         if (averageSalary != null) {
-            System.out.printf("The average salary of %s is %.2f%n", departmentName, averageSalary);
-            return;
+            response = new ShowAverageSalaryResponse(departmentName, averageSalary);
+            log.info(response.getResponseBody());
+            return response;
         }
-        log.info("Department not found or no average salary available.");
+        log.info(response.getNegativeResponseBody());
+        return response;
     }
 
     @Override

@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import yevhkil.uniconsoleapp.command.Command;
 import yevhkil.uniconsoleapp.request.RequestHandler;
+import yevhkil.uniconsoleapp.response.Response;
+import yevhkil.uniconsoleapp.response.responses.ShowEmployeeCountResponse;
 import yevhkil.uniconsoleapp.service.department.DepartmentService;
 import yevhkil.uniconsoleapp.util.ArgumentsExtractor;
 
@@ -22,9 +24,11 @@ public class ShowEmployeeCountByDepartmentCommand implements Command {
     private final ArgumentsExtractor argumentsExtractor;
 
     @Override
-    public void execute(String input) {
+    public Response execute(String input) {
+        Response response = new ShowEmployeeCountResponse();
+
         if (!requestHandler.isRequestApplicableByPattern(input, PATTERN)) {
-            return;
+            return response;
         }
 
         String departmentName =
@@ -32,10 +36,12 @@ public class ShowEmployeeCountByDepartmentCommand implements Command {
         Integer employeeCount = departmentService.getEmployeeCount(departmentName);
 
         if (employeeCount != 0) {
-            System.out.printf("Employee count for %s: %d%n", departmentName, employeeCount);
-            return;
+            response = new ShowEmployeeCountResponse(departmentName, employeeCount);
+            System.out.printf(response.getResponseBody());
+            return response;
         }
-        log.info("No employees found for the department: " + departmentName);
+        log.info(response.getNegativeResponseBody() + departmentName);
+        return response;
     }
 
     @Override
